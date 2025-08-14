@@ -15,7 +15,7 @@ import Notification from "./Notification";
 import DealDetailsForm from "./DealDetailsForm";
 import ProgressStep from "./progressStep";
 import CompanyInfoForm from "./companyInfoForm";
-import PicContactForm from "./picContactForm";
+import PicContactForm from "./PicContactForm";
 import FormAction from "./formAction";
 
 function App() {
