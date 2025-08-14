@@ -1,5 +1,8 @@
+import cities from "./data/CitiesData";
+import SearchableDropdown from "./SearchableDropdown";
+
 // This component renders a contact form for a PIC (Person In Charge)
-export default function PicContactForm({ errors, register, handlePicDivisionChange }) {
+export default function PicContactForm({ errors, register, handlePicDivisionChange, selectedCity, handleCityChange }) {
   return (
     <>
       {/* Field for PIC Name */}
@@ -97,6 +100,45 @@ export default function PicContactForm({ errors, register, handlePicDivisionChan
         </div>
         {errors.picDivision && (
           <div className="error-message">{errors.picDivision.message}</div>
+        )}
+      </div>
+
+      {/* Field for City */}
+      <div className="form-field">
+        <label htmlFor="city" className="form-label">
+          Kota
+        </label>
+        <div className="form-select">
+          {/* <select
+            id="city"
+            className={`form-input select ${errors.city ? "error" : ""}`}
+            {...register("city")}
+            onChange={(e) => handleCityChange(e.target.value)}
+          >
+            <option value="">Pilih Kota</option>
+            {cities.map((city, index) => (
+              <option key={index} value={city}>{city}</option>
+            ))}
+          </select> */}
+          <SearchableDropdown options={cities} onValueChange={handleCityChange} selectedValue={selectedCity} placeholder="Cari atau pilih kota..." />
+          <svg
+            className="select-arrow"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M4 6L8 10L12 6"
+              stroke="#64748b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        {errors.city && (
+          <div className="error-message">{errors.city.message}</div>
         )}
       </div>
 

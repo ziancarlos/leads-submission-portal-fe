@@ -41,6 +41,7 @@ function App() {
       picPhoneNumber: "",
       picEmail: "",
       picDivision: "",
+      city: "",
       numberOfEmployee: "",
       dealType: "",
       industry: "",
@@ -74,6 +75,12 @@ function App() {
     await trigger("picMekariName"); // Trigger validation for picMekariName after reset
     await trigger("productPreference"); // Trigger validation for productPreference
   };
+
+  const selectedCity = watch("city");
+  const handleCityChange = (value) => {
+    setValue("city", value);
+    console.log()
+  }
 
   const validateStep1 = async () => {
     const step1Fields = [
@@ -197,6 +204,7 @@ function App() {
           id: selectedProductPreference?.id || "",
           name: selectedProductPreference?.name || "",
         },
+        city: formData.city
       };
 
       const response = await axios.post(
@@ -231,6 +239,7 @@ function App() {
         setValue("industry", "");
         setValue("productPreference", "");
         setValue("needsDetail", "");
+        setValue("city", "");
       } else {
         const errorMessage =
           response.data.message || "Terjadi kesalahan saat mengirim form.";
@@ -318,7 +327,7 @@ function App() {
             )}
 
             {currentStep === 2 && (
-              <PicContactForm errors={errors} register={register} />
+              <PicContactForm errors={errors} register={register} handleCityChange={handleCityChange} selectedCity={selectedCity} />
             )}
 
             {currentStep === 3 && (
