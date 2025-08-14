@@ -29,22 +29,17 @@ export default function SearchableDropdown({
     };
   }, []);
 
-
   const handleSelectOption = (value) => {
     onValueChange(value);
-    setSearchTerm("");
     setIsOpen(false);
   };
 
   const handleInputClick = () => {
-    setIsOpen(!isOpen);
-    // When opening, if a value is already selected, use it as the search term
-    // so the user can see it in the list immediately.
-    if (!isOpen && selectedValue) {
-      setSearchTerm(selectedValue);
-    } else if (isOpen) {
-      setSearchTerm(selectedValue || "");
+    // When opening the dropdown, clear the search term to show the full list.
+    if (!isOpen) {
+      setSearchTerm("");
     }
+    setIsOpen(!isOpen);
   };
 
   const handleInputChange = (e) => {
@@ -113,4 +108,4 @@ export default function SearchableDropdown({
       )}
     </div>
   );
-};
+}
