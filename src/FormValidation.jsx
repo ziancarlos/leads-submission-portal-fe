@@ -1,6 +1,7 @@
 import z from "zod";
 import { employeeMap } from "./data/EmployeeData";
 const availableProducts = Object.keys(employeeMap);
+import cities from "./data/CitiesData";
 
 export const formSchema = z
   .object({
@@ -78,6 +79,15 @@ export const formSchema = z
       .refine((val) => val && val.trim().length > 0, {
         message: "Divisi PIC tidak boleh kosong.",
       }),
+      city: z
+      .string({
+        required_error: "Kota tidak boleh kosong.",
+        invalid_type_error: "Kota tidak boleh kosong.",
+      })
+      .min(1, "Kota harus dipilih.")
+      .refine((val) => cities.includes(val), {
+        message: "Kota harus dipilih dari daftar yang tersedia.",
+      }),
     numberOfEmployee: z
       .string({
         required_error: "Jumlah Karyawan tidak boleh kosong.",
@@ -107,6 +117,7 @@ export const formSchema = z
       })
       .min(1, "Industri harus dipilih."),
     productPreference: z.string().optional(),
+    useCase: z.string().optional(),
     needsDetail: z
       .string({
         required_error: "Detail Kebutuhan tidak boleh kosong.",
@@ -145,4 +156,17 @@ export const formSchema = z
       message: "Preferensi Produk harus dipilih untuk Mekari Qontak.",
       path: ["productPreference"],
     }
-  );
+  )
+  .refine(
+    (data) => {
+      // Use Case is required only for Mekari Qontak
+      if (data.product === "Mekari Qontak") {
+        return data.useCase && data.useCase.trim().length > 0;
+      }
+      return true;
+    },
+    {
+      message: "Use Case harus dipilih untuk Mekari Qontak.",
+      path: ["useCase"],
+    }
+  );;

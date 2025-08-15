@@ -70,7 +70,7 @@ export default function CompanyInfoForm({
               errors.picMekariName ? "error" : ""
             }`}
             {...register("picMekariName", {
-              onChange: async (e) => {
+              onChange: async () => {
                 await trigger("picMekariName");
               },
             })}
