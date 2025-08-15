@@ -4,6 +4,7 @@ export default function DealDetailsForm({
   dealTypes,
   industries,
   selectedProduct,
+  handleUseCaseChange,
   productPreferences,
 }) {
   return (
@@ -124,6 +125,51 @@ export default function DealDetailsForm({
             <div className="error-message">
               {errors.productPreference.message}
             </div>
+          )}
+        </div>
+      )}
+
+      {/* Field for Use Case */}
+      {selectedProduct === "Mekari Qontak" && (
+        <div className="form-field">
+          <label htmlFor="useCase" className="form-label">
+            Use Case
+          </label>
+          <div className="form-select">
+            <select
+              id="useCase"
+              className={`form-input select ${errors.useCase ? "error" : ""}`}
+              {...register("useCase")}
+              onChange={(e) => {
+                register("useCase").onChange(e);
+                handleUseCaseChange(e.target.value)
+              }}
+            >
+              <option value="">Pilih Use Case</option>
+              <option value="Sales">Sales</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Customer Support - External">
+                Customer Support - External
+              </option>
+            </select>
+            <svg
+              className="select-arrow"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M4 6L8 10L12 6"
+                stroke="#64748b"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          {errors.useCase && (
+            <div className="error-message">{errors.useCase.message}</div>
           )}
         </div>
       )}

@@ -108,35 +108,15 @@ export default function PicContactForm({ errors, register, handlePicDivisionChan
         <label htmlFor="city" className="form-label">
           Kota
         </label>
-        <div className="form-select">
-          {/* <select
-            id="city"
-            className={`form-input select ${errors.city ? "error" : ""}`}
-            {...register("city")}
-            onChange={(e) => handleCityChange(e.target.value)}
-          >
-            <option value="">Pilih Kota</option>
-            {cities.map((city, index) => (
-              <option key={index} value={city}>{city}</option>
-            ))}
-          </select> */}
-          <SearchableDropdown options={cities} onValueChange={handleCityChange} selectedValue={selectedCity} placeholder="Cari atau pilih kota..." />
-          <svg
-            className="select-arrow"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-          >
-            <path
-              d="M4 6L8 10L12 6"
-              stroke="#64748b"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+        {/* Hidden input to register the field with React Hook Form */}
+        <input type="hidden" {...register("city")} />
+        <SearchableDropdown
+          options={cities}
+          onValueChange={handleCityChange}
+          selectedValue={selectedCity}
+          placeholder="Cari atau pilih kota..."
+          error={errors.city}
+        />
         {errors.city && (
           <div className="error-message">{errors.city.message}</div>
         )}

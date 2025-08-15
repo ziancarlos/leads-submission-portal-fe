@@ -47,6 +47,7 @@ function App() {
       industry: "",
       productPreference: "",
       needsDetail: "",
+      useCase: "",
     },
   });
 
@@ -71,14 +72,22 @@ function App() {
     setValue("product", value);
     setValue("picMekariName", ""); // Reset PIC selection when product changes
     setValue("productPreference", ""); // Reset product preference when product changes
+    setValue("useCase", ""); // Reset use case when product changes
     await trigger("product"); // Trigger validation for product
     await trigger("picMekariName"); // Trigger validation for picMekariName after reset
     await trigger("productPreference"); // Trigger validation for productPreference
+    await trigger("useCase"); // Trigger validation for useCase
   };
+
+  const handleUseCaseChange = (value) => {
+    setValue("useCase", value, {
+      shouldValidate: true,
+    });
+  }
 
   const selectedCity = watch("city");
   const handleCityChange = (value) => {
-    setValue("city", value);
+    setValue("city", value, {shouldValidate: true});
     console.log()
   }
 
@@ -102,6 +111,7 @@ function App() {
       "picEmail",
       "picDivision",
       "numberOfEmployee",
+      "city"
     ];
     const results = await Promise.all(
       step2Fields.map((field) => trigger(field))
@@ -113,6 +123,7 @@ function App() {
     const step3Fields = ["dealType", "industry", "needsDetail"];
     if (selectedProduct === "Mekari Qontak") {
       step3Fields.push("productPreference");
+      step3Fields.push("useCase");
     }
     const results = await Promise.all(
       step3Fields.map((field) => trigger(field))
@@ -204,7 +215,8 @@ function App() {
           id: selectedProductPreference?.id || "",
           name: selectedProductPreference?.name || "",
         },
-        city: formData.city
+        city: formData.city,
+        useCase: formData.useCase || "",
       };
 
       const response = await axios.post(
@@ -240,6 +252,7 @@ function App() {
         setValue("productPreference", "");
         setValue("needsDetail", "");
         setValue("city", "");
+        setValue("useCase", "");
       } else {
         const errorMessage =
           response.data.message || "Terjadi kesalahan saat mengirim form.";
@@ -338,6 +351,7 @@ function App() {
                 industries={industries}
                 selectedProduct={selectedProduct}
                 productPreferences={productPreferences}
+                handleUseCaseChange={handleUseCaseChange}
               />
             )}
           </div>
