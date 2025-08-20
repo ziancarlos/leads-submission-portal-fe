@@ -121,25 +121,6 @@ export default function PicContactForm({ errors, register, handlePicDivisionChan
           <div className="error-message">{errors.city.message}</div>
         )}
       </div>
-
-      {/* Field for Number of Employees */}
-      <div className="form-field">
-        <label htmlFor="numberOfEmployee" className="form-label">
-          Jumlah Karyawan
-        </label>
-        <input
-          id="numberOfEmployee"
-          type="number"
-          // Add error class if there's an error for numberOfEmployee
-          className={`form-input ${errors.numberOfEmployee ? "error" : ""}`}
-          placeholder="Masukkan Jumlah Karyawan"
-          {...register("numberOfEmployee")}
-        />
-        {/* Display error message if there's an error */}
-        {errors.numberOfEmployee && (
-          <div className="error-message">{errors.numberOfEmployee.message}</div>
-        )}
-      </div>
     </>
   );
 }

@@ -9,7 +9,6 @@ import { employeeMap } from "./data/EmployeeData";
 import { productMapping } from "./data/ProductData";
 import { dealTypes } from "./data/DealsTypeData";
 import { formSchema } from "./FormValidation";
-import { productPreferences } from "./data/ProductPrefrenceData";
 import { industries } from "./data/IndustriesData";
 import Notification from "./Notification";
 import DealDetailsForm from "./DealDetailsForm";
@@ -42,10 +41,8 @@ function App() {
       picEmail: "",
       picDivision: "",
       city: "",
-      numberOfEmployee: "",
       dealType: "",
       industry: "",
-      productPreference: "",
       needsDetail: "",
       useCase: "",
     },
@@ -71,11 +68,9 @@ function App() {
   const handleProductChange = async (value) => {
     setValue("product", value);
     setValue("picMekariName", ""); // Reset PIC selection when product changes
-    setValue("productPreference", ""); // Reset product preference when product changes
     setValue("useCase", ""); // Reset use case when product changes
     await trigger("product"); // Trigger validation for product
     await trigger("picMekariName"); // Trigger validation for picMekariName after reset
-    await trigger("productPreference"); // Trigger validation for productPreference
     await trigger("useCase"); // Trigger validation for useCase
   };
 
@@ -110,7 +105,6 @@ function App() {
       "picPhoneNumber",
       "picEmail",
       "picDivision",
-      "numberOfEmployee",
       "city"
     ];
     const results = await Promise.all(
@@ -122,7 +116,6 @@ function App() {
   const validateStep3 = async () => {
     const step3Fields = ["dealType", "industry", "needsDetail"];
     if (selectedProduct === "Mekari Qontak") {
-      step3Fields.push("productPreference");
       step3Fields.push("useCase");
     }
     const results = await Promise.all(
@@ -177,12 +170,6 @@ function App() {
         (industry) => industry.name === formData.industry
       );
 
-      const selectedProductPreference = formData.productPreference
-        ? productPreferences.find(
-            (pref) => pref.name === formData.productPreference
-          )
-        : null;
-
       const currentTime = new Date();
       const apiPayload = {
         clientCompanyName: formData.companyName,
@@ -197,7 +184,6 @@ function App() {
           name: selectedIndustry?.name || "",
         },
         needsDetail: formData.needsDetail,
-        numOfEmployee: parseInt(formData.numberOfEmployee),
         partnerCode: formData.partnerCode,
         picDivision: formData.picDivision,
         picEmail: formData.picEmail,
@@ -210,10 +196,6 @@ function App() {
         product: productMapping[formData.product] || {
           id: "",
           name: formData.product,
-        },
-        productReference: {
-          id: selectedProductPreference?.id || "",
-          name: selectedProductPreference?.name || "",
         },
         city: formData.city,
         useCase: formData.useCase || "",
@@ -246,10 +228,8 @@ function App() {
         setValue("picPhoneNumber", "");
         setValue("picEmail", "");
         setValue("picDivision", "");
-        setValue("numberOfEmployee", "");
         setValue("dealType", "");
         setValue("industry", "");
-        setValue("productPreference", "");
         setValue("needsDetail", "");
         setValue("city", "");
         setValue("useCase", "");
@@ -350,7 +330,6 @@ function App() {
                 dealTypes={dealTypes}
                 industries={industries}
                 selectedProduct={selectedProduct}
-                productPreferences={productPreferences}
                 handleUseCaseChange={handleUseCaseChange}
               />
             )}

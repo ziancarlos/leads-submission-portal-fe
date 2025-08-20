@@ -88,21 +88,6 @@ export const formSchema = z
       .refine((val) => cities.includes(val), {
         message: "Kota harus dipilih dari daftar yang tersedia.",
       }),
-    numberOfEmployee: z
-      .string({
-        required_error: "Jumlah Karyawan tidak boleh kosong.",
-        invalid_type_error: "Jumlah Karyawan tidak boleh kosong.",
-      })
-      .refine((val) => val && val.trim().length > 0, {
-        message: "Jumlah Karyawan tidak boleh kosong.",
-      })
-      .refine((val) => !isNaN(parseInt(val)), {
-        message: "Jumlah Karyawan harus berupa angka.",
-      })
-      .refine((val) => parseInt(val) > 0, {
-        message: "Jumlah Karyawan harus lebih besar dari 0.",
-      }),
-
     // Step 3: Deal Details
     dealType: z
       .string({
@@ -116,7 +101,6 @@ export const formSchema = z
         invalid_type_error: "Industri tidak boleh kosong.",
       })
       .min(1, "Industri harus dipilih."),
-    productPreference: z.string().optional(),
     useCase: z.string().optional(),
     needsDetail: z
       .string({
@@ -140,21 +124,6 @@ export const formSchema = z
     {
       message: "Nama PIC Mekari harus sesuai dengan produk yang dipilih.",
       path: ["picMekariName"],
-    }
-  )
-  .refine(
-    (data) => {
-      // Product Preference is required only for Mekari Qontak
-      if (data.product === "Mekari Qontak") {
-        return (
-          data.productPreference && data.productPreference.trim().length > 0
-        );
-      }
-      return true;
-    },
-    {
-      message: "Preferensi Produk harus dipilih untuk Mekari Qontak.",
-      path: ["productPreference"],
     }
   )
   .refine(

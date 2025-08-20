@@ -5,7 +5,6 @@ export default function DealDetailsForm({
   industries,
   selectedProduct,
   handleUseCaseChange,
-  productPreferences,
 }) {
   return (
     <>
@@ -84,50 +83,6 @@ export default function DealDetailsForm({
           <div className="error-message">{errors.industry.message}</div>
         )}
       </div>
-
-      {selectedProduct === "Mekari Qontak" && (
-        <div className="form-field">
-          <label htmlFor="productPreference" className="form-label">
-            Preferensi Produk
-          </label>
-          <div className="form-select">
-            <select
-              id="productPreference"
-              className={`form-input select ${
-                errors.productPreference ? "error" : ""
-              }`}
-              {...register("productPreference")}
-            >
-              <option value="">Pilih Preferensi Produk</option>
-              {productPreferences.map((preference) => (
-                <option key={preference.id} value={preference.name}>
-                  {preference.name}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="select-arrow"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                d="M4 6L8 10L12 6"
-                stroke="#64748b"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          {errors.productPreference && (
-            <div className="error-message">
-              {errors.productPreference.message}
-            </div>
-          )}
-        </div>
-      )}
 
       {/* Field for Use Case */}
       {selectedProduct === "Mekari Qontak" && (
